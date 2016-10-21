@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import br.org.silva.gynapp.interfaces.Entidade;
 
@@ -25,7 +27,7 @@ public class Exercicio implements Entidade{
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="exercicio_id_seq")
 	private Long id;
 	
-	@Column
+	@Column(nullable=false)
 	private String nome;
 	
 	public Exercicio() {}

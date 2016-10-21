@@ -22,7 +22,7 @@ public class Serie implements Entidade{
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="serie_id_seq")
 	private Long id;
 	
-	@Column
+	@Column(nullable=false)
 	private String descricao;
 	
 	public Serie() {}

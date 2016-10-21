@@ -5,11 +5,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import javax.inject.Inject;
+import javax.persistence.PersistenceException;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.org.silva.gynapp.dao.SerieDao;
+import br.org.silva.gynapp.exception.DuplicatedObjectException;
 import br.org.silva.gynapp.exception.InvalidOperationException;
 import br.org.silva.gynapp.model.Serie;
 import br.org.silva.gynapp.test.base.TestBase;
@@ -20,7 +22,7 @@ public class TestSerieDao extends TestBase{
 	private SerieDao serieDao;
 	
 	@Test
-	public void should_save_serie(){
+	public void should_save_serie() throws DuplicatedObjectException{
 		
 		Serie serie = new Serie();
 		serie.setDescricao("3 x 10");
@@ -29,7 +31,7 @@ public class TestSerieDao extends TestBase{
 	}
 	
 	@Test
-	public void should_get_all_series(){
+	public void should_get_all_series() throws DuplicatedObjectException{
 		Serie serie = new Serie();
 		serie.setDescricao("3 x 10");
 		serieDao.save(serie);
@@ -37,7 +39,7 @@ public class TestSerieDao extends TestBase{
 	}
 	
 	@Test
-	public void should_get_serie_by_id(){
+	public void should_get_serie_by_id() throws DuplicatedObjectException{
 		Serie serie = new Serie();
 		serie.setDescricao("2 x 3 - 5");
 		serieDao.save(serie);
@@ -51,7 +53,7 @@ public class TestSerieDao extends TestBase{
 	}
 	
 	@Test
-	public void should_delete_a_serie(){
+	public void should_delete_a_serie() throws DuplicatedObjectException{
 		Serie serie = new Serie();
 		serie.setDescricao("3 x 6 - 8");
 		serieDao.save(serie);
@@ -60,5 +62,22 @@ public class TestSerieDao extends TestBase{
 		serieDao.delete(serie);
 		assertNull(serieDao.getById(serieId));
 		
+	}
+	
+	@Test(expected=PersistenceException.class)
+	public void serie_should_have_a_description() throws DuplicatedObjectException{
+		Serie serie = new Serie();
+		serieDao.save(serie);
+	}
+	
+	@Test(expected=DuplicatedObjectException.class)
+	public void serie_should_not_be_duplicated() throws DuplicatedObjectException{
+		Serie serie = new Serie();
+		serie.setDescricao("3 x 10");
+		serieDao.save(serie);
+		
+		serie = new Serie();
+		serie.setDescricao("3 x 10");
+		serieDao.save(serie);
 	}
 }

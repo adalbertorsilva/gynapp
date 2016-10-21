@@ -1,6 +1,7 @@
 package br.org.silva.gynapp.model;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,13 +24,13 @@ public class Execucao implements Entidade{
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="execucao_id_seq")
 	private Long id;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL, optional=false)
 	private Exercicio exercicio; 
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL, optional=false)
 	private Serie serie;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL, optional=false)
 	private Carga carga;
 	
 	public Exercicio getExercicio() {

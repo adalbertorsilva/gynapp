@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.org.silva.gynapp.dao.SerieDao;
+import br.org.silva.gynapp.exception.DuplicatedObjectException;
 import br.org.silva.gynapp.interfaces.UTF8MediaType;
 import br.org.silva.gynapp.model.Serie;
 
@@ -43,8 +44,12 @@ public class SerieService {
 	@Consumes(UTF8MediaType.JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public String saveSerie(Serie serie){
-		serieDao.save(serie);
-		return "Operação realizada com sucesso!";
+		try {
+			serieDao.save(serie);
+			return "Operação realizada com sucesso!";
+		} catch (DuplicatedObjectException e) {
+			return e.getMessage();
+		}
 	}
 	
 	@DELETE
