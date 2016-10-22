@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.org.silva.gynapp.dao.ExercicioDAO;
+import br.org.silva.gynapp.exception.BusinessException;
 import br.org.silva.gynapp.exception.DuplicatedObjectException;
 import br.org.silva.gynapp.exception.InvalidOperationException;
 import br.org.silva.gynapp.model.Exercicio;
@@ -30,13 +31,13 @@ public class TestExercicioDAO extends TestBase {
 	}
 	
 	@Test(expected=PersistenceException.class)
-	public void exercicio_should_have_a_name() throws DuplicatedObjectException{
+	public void exercicio_should_have_a_name() throws BusinessException{
 		Exercicio supino = new Exercicio();
 		exercicioDAO.save(supino);
 	}
 	
-	@Test(expected = PersistenceException.class)
-	public void exercicio_should_not_be_duplicated() throws DuplicatedObjectException{
+	@Test(expected = DuplicatedObjectException.class)
+	public void exercicio_should_not_be_duplicated() throws BusinessException{
 		
 		Exercicio supino = new Exercicio();
 		supino.setNome("Supino");
@@ -48,7 +49,7 @@ public class TestExercicioDAO extends TestBase {
 	}
 
 	@Test
-	public void should_retrieve_all() throws DuplicatedObjectException {
+	public void should_retrieve_all() throws BusinessException {
 		
 		Exercicio supino = new Exercicio();
 		supino.setNome("Supino");
@@ -59,7 +60,7 @@ public class TestExercicioDAO extends TestBase {
 	}
 
 	@Test
-	public void should_get_exercicio_by_id() throws DuplicatedObjectException {
+	public void should_get_exercicio_by_id() throws BusinessException {
 		Exercicio legPress = new Exercicio();
 		legPress.setNome("Leg Press");
 		exercicioDAO.save(legPress);
@@ -75,7 +76,7 @@ public class TestExercicioDAO extends TestBase {
 	}
 
 	@Test
-	public void should_delete_exercicio() throws DuplicatedObjectException {
+	public void should_delete_exercicio() throws BusinessException {
 		Exercicio barra = new Exercicio();
 		barra.setNome("Barra Fixa");
 		exercicioDAO.save(barra);

@@ -42,5 +42,10 @@ public class Serie implements Entidade{
 	public Long getId() {
 		return id;
 	}
-
+	
+	@Override
+	public boolean equals(Object obj) {
+		Serie serie = (Serie) obj;
+		return this.getDescricao().equalsIgnoreCase(serie.getDescricao());
+	}
 }

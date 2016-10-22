@@ -43,5 +43,10 @@ public class Carga implements Entidade{
 	public Long getId() {
 		return id;
 	}
-
+	
+	@Override
+	public boolean equals(Object obj) {
+		Carga carga = (Carga) obj;
+		return this.getPeso().equals(carga.getPeso());
+	}
 }

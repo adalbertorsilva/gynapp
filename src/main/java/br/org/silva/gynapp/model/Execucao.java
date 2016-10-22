@@ -1,12 +1,22 @@
 package br.org.silva.gynapp.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 
 import br.org.silva.gynapp.interfaces.Entidade;
@@ -32,6 +42,22 @@ public class Execucao implements Entidade{
 	
 	@OneToOne(cascade=CascadeType.ALL, optional=false)
 	private Carga carga;
+
+	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, 
+				 fetch=FetchType.LAZY, mappedBy= "execucao")
+	@OrderBy("dataCriacao ASC")
+	private List<HistoricoExecucao> historico;
+	
+	@ManyToOne
+	private Programa programa;
+	
+	public Execucao() {}
+	
+	public Execucao(Exercicio exercicio, Serie serie, Carga carga){
+		this.exercicio = exercicio;
+		this.serie = serie;
+		this.carga = carga;
+	}
 	
 	public Exercicio getExercicio() {
 		return exercicio;
@@ -59,5 +85,22 @@ public class Execucao implements Entidade{
 
 	public Long getId() {
 		return id;
+	}
+
+	public List<HistoricoExecucao> getHistorico() {
+		
+		if(historico == null){
+			historico = new ArrayList<>();
+		}
+		
+		return historico;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		Execucao execucao = (Execucao) obj;
+		return this.getExercicio().equals(execucao.getExercicio()) && 
+			   this.getSerie().equals(execucao.getSerie()) &&
+			   this.getCarga().equals(execucao.getCarga());
 	}
 }

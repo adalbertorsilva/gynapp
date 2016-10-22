@@ -47,4 +47,10 @@ public class Exercicio implements Entidade{
 	public Long getId() {
 		return id;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		Exercicio exercicio = (Exercicio) obj;
+		return this.getNome().equalsIgnoreCase(exercicio.getNome());
+	}
 }

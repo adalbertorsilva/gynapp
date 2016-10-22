@@ -8,6 +8,7 @@
 		<class>br.org.silva.gynapp.model.Serie</class>
 		<class>br.org.silva.gynapp.model.Carga</class>
 		<class>br.org.silva.gynapp.model.Execucao</class>
+		<class>br.org.silva.gynapp.model.HistoricoExecucao</class>
 
 	</persistence-unit>
 </persistence>

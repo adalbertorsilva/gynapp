@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.stereotype.Repository;
 
 import br.org.silva.gynapp.dao.base.BaseDao;
+import br.org.silva.gynapp.exception.BusinessException;
 import br.org.silva.gynapp.exception.DuplicatedObjectException;
 import br.org.silva.gynapp.exception.InvalidOperationException;
 import br.org.silva.gynapp.model.Exercicio;
@@ -24,7 +25,7 @@ public class ExercicioDAO extends BaseDao<Exercicio>{
 	}
 
 	@Override
-	protected void preEvents(Exercicio entidade) throws DuplicatedObjectException {
+	protected void preEvents(Exercicio entidade) throws BusinessException {
 		if (!getExerciciosByName(entidade).isEmpty()) {
 			throw new DuplicatedObjectException();
 		}

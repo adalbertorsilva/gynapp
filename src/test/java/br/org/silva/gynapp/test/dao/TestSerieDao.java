@@ -4,13 +4,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.org.silva.gynapp.dao.SerieDao;
+import br.org.silva.gynapp.exception.BusinessException;
 import br.org.silva.gynapp.exception.DuplicatedObjectException;
 import br.org.silva.gynapp.exception.InvalidOperationException;
 import br.org.silva.gynapp.model.Serie;
@@ -22,7 +22,7 @@ public class TestSerieDao extends TestBase{
 	private SerieDao serieDao;
 	
 	@Test
-	public void should_save_serie() throws DuplicatedObjectException{
+	public void should_save_serie() throws BusinessException{
 		
 		Serie serie = new Serie();
 		serie.setDescricao("3 x 10");
@@ -31,7 +31,7 @@ public class TestSerieDao extends TestBase{
 	}
 	
 	@Test
-	public void should_get_all_series() throws DuplicatedObjectException{
+	public void should_get_all_series() throws BusinessException{
 		Serie serie = new Serie();
 		serie.setDescricao("3 x 10");
 		serieDao.save(serie);
@@ -39,7 +39,7 @@ public class TestSerieDao extends TestBase{
 	}
 	
 	@Test
-	public void should_get_serie_by_id() throws DuplicatedObjectException{
+	public void should_get_serie_by_id() throws BusinessException{
 		Serie serie = new Serie();
 		serie.setDescricao("2 x 3 - 5");
 		serieDao.save(serie);
@@ -53,7 +53,7 @@ public class TestSerieDao extends TestBase{
 	}
 	
 	@Test
-	public void should_delete_a_serie() throws DuplicatedObjectException{
+	public void should_delete_a_serie() throws BusinessException{
 		Serie serie = new Serie();
 		serie.setDescricao("3 x 6 - 8");
 		serieDao.save(serie);
@@ -65,13 +65,13 @@ public class TestSerieDao extends TestBase{
 	}
 	
 	@Test(expected=PersistenceException.class)
-	public void serie_should_have_a_description() throws DuplicatedObjectException{
+	public void serie_should_have_a_description() throws BusinessException{
 		Serie serie = new Serie();
 		serieDao.save(serie);
 	}
 	
 	@Test(expected=DuplicatedObjectException.class)
-	public void serie_should_not_be_duplicated() throws DuplicatedObjectException{
+	public void serie_should_not_be_duplicated() throws BusinessException{
 		Serie serie = new Serie();
 		serie.setDescricao("3 x 10");
 		serieDao.save(serie);

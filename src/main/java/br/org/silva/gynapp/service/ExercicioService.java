@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.org.silva.gynapp.dao.ExercicioDAO;
+import br.org.silva.gynapp.exception.BusinessException;
 import br.org.silva.gynapp.exception.DuplicatedObjectException;
 import br.org.silva.gynapp.interfaces.UTF8MediaType;
 import br.org.silva.gynapp.model.Exercicio;
@@ -50,7 +51,7 @@ public class ExercicioService {
 		try {
 			exercicioDAO.save(exercicio);
 			return "Operação realizada com sucesso!";
-		} catch (DuplicatedObjectException e) {
+		} catch (BusinessException e) {
 			return e.getMessage();
 		}
 		

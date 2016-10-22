@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 import org.hibernate.Session;
 
+import br.org.silva.gynapp.exception.BusinessException;
 import br.org.silva.gynapp.exception.DuplicatedObjectException;
 import br.org.silva.gynapp.interfaces.Entidade;
 
@@ -18,17 +19,17 @@ public abstract class BaseDao<E extends Entidade> implements Serializable{
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	protected void preEvents(E entidade) throws DuplicatedObjectException{}
+	protected void preEvents(E entidade) throws BusinessException{}
 	protected void postEvents(E entidade){}
 	
-	public void save(E entidade) throws DuplicatedObjectException{
+	public void save(E entidade) throws BusinessException{
 		
 		preEvents(entidade);
 		getEntityManager().persist(entidade);
 		postEvents(entidade);
 	}
 
-	public void update(E entidade) throws DuplicatedObjectException {
+	public void update(E entidade) throws BusinessException {
 		preEvents(entidade);
 		getEntityManager().merge(entidade);
 		postEvents(entidade);
