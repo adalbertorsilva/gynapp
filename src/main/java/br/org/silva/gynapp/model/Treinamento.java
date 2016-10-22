@@ -1,11 +1,10 @@
 package br.org.silva.gynapp.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -31,6 +30,13 @@ public class Treinamento implements Entidade {
 	
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="treinamento")
 	private Set<Programa> programas;
+
+	@Column
+	private Integer quantidadeDeCiclos;
+
+	public Treinamento() {
+		quantidadeDeCiclos = 0;
+	}
 	
 	@Override
 	public Long getId() {
@@ -45,5 +51,25 @@ public class Treinamento implements Entidade {
 		
 		return programas;
 	}
+	
+	public Integer getCiclos() {
+		return quantidadeDeCiclos;
+	}
 
+	public void completarPrograma(Programa programa) {
+		programa.indisponibilizar();
+		
+		if(isTodosProgramasCompletos()){
+			quantidadeDeCiclos++;
+			disponibilizarTodosProgramas();
+		}
+	}
+	
+	public boolean isTodosProgramasCompletos(){
+		return ! programas.stream().filter(p -> p.isDisponivel()).findAny().isPresent();
+	}
+	
+	public void disponibilizarTodosProgramas(){
+		programas.forEach(p -> p.disponibilizar());
+	}
 }
